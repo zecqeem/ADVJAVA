@@ -1,0 +1,65 @@
+package com.example.try1.service;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+import org.springframework.stereotype.Service;
+import com.example.try1.model.Product;
+import com.example.try1.service.ExcelService;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
+public class ProductParserService {
+
+    private static final String URL = "https://rozetka.com.ua/notebooks/c80004/";
+
+    public ProductParserService(CurrencyService currencyService, ExcelService excelService) {
+        this.currencyService = currencyService;
+        this.excelService = excelService;
+    }
+
+    private final CurrencyService currencyService;
+    private final ExcelService excelService;
+    public List<Product> getProducts() {
+        List<Product> products = new ArrayList<>();
+
+        try {
+            // Загружаем HTML-страницу
+            Document doc = Jsoup.connect(URL).get();
+
+            // Ищем блоки товаров
+            Elements items = doc.select(".goods-tile");
+
+            for (Element item : items) {
+                String title = item.select(".goods-tile__title").text();
+                String price = item.select(".goods-tile__price-value").text();
+                String imageUrl = item.select(".goods-tile__picture img").attr("src");
+                String productUrl = item.select(".goods-tile__heading a").attr("href");
+
+                products.add(new Product(title, price, imageUrl, productUrl));
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return products;
+    }
+
+    // Выводит товары в терминал
+    public String getUsdRate() {
+        return currencyService.getUsdRate();
+    }
+    public void printProducts() {
+        List<Product> products = getProducts();
+        for (Product product : products) {
+            System.out.println(product);
+        }
+        float usd = Float.parseFloat(getUsdRate());
+        excelService.saveProductsToExcel(products,usd);
+    }
+
+}
