@@ -36,10 +36,15 @@ public class ExcelService {
         }
 
         // Сохраняем файл
-        try (FileOutputStream fileOut = new FileOutputStream(new File("products.xlsx"))) {
-            workbook.write(fileOut);
-            workbook.close();
-            System.out.println("📥 Данные сохранены в файл products.xlsx");
+        try {
+            String filePath = "src/main/resources/products.xlsx"; // Указываем путь к ресурсам
+            File file = new File(filePath);
+
+            try (FileOutputStream fileOut = new FileOutputStream(file)) {
+                workbook.write(fileOut);
+                workbook.close();
+                System.out.println("📥 Данные сохранены в " + file.getAbsolutePath());
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

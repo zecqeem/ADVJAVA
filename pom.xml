@@ -60,6 +60,10 @@
 			<artifactId>poi-ooxml</artifactId>
 			<version>5.2.3</version>  <!-- или последняя версия -->
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
 
 		<!-- Spring Boot JPA (если работаешь с БД) -->
 <!--		<dependency>-->
