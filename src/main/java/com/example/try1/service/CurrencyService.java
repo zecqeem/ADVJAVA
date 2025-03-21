@@ -23,8 +23,6 @@ public class CurrencyService {
 
     private static class ExchangeRate {
         public String ccy;
-        public String base_ccy;
-        public String buy;
         public String sale;
     }
 }

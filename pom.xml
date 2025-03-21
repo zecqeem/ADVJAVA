@@ -84,6 +84,10 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<!-- Это настраивает создание JAR файла -->
+					<mainClass>com.example.try1.Try1Application</mainClass>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

@@ -12,7 +12,7 @@ import java.util.List;
 public class ExcelService {
 
     // Метод для сохранения продуктов в Excel
-    public void saveProductsToExcel(List<Product> products,float currency) {
+    public File saveProductsToExcel(List<Product> products, String currency) {
         Workbook workbook = new XSSFWorkbook();
         Sheet sheet = workbook.createSheet("Products");
 
@@ -35,18 +35,16 @@ public class ExcelService {
             row.createCell(4).setCellValue(currency);
         }
 
-        // Сохраняем файл
-        try {
-            String filePath = "src/main/resources/products.xlsx"; // Указываем путь к ресурсам
-            File file = new File(filePath);
-
-            try (FileOutputStream fileOut = new FileOutputStream(file)) {
-                workbook.write(fileOut);
-                workbook.close();
-                System.out.println("📥 Данные сохранены в " + file.getAbsolutePath());
-            }
+        // Сохраняем файл в временной папке
+        File file = new File(System.getProperty("java.io.tmpdir") + "products.xlsx");
+        try (FileOutputStream fileOut = new FileOutputStream(file)) {
+            workbook.write(fileOut);
+            workbook.close();
+            System.out.println("📥 Данные сохранены в " + file.getAbsolutePath());
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        return file;
     }
 }

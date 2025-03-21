@@ -6,7 +6,6 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 import com.example.try1.model.Product;
-import com.example.try1.service.ExcelService;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,13 +15,6 @@ public class ProductParserService {
 
     private static final String URL = "https://rozetka.com.ua/notebooks/c80004/";
 
-    public ProductParserService(CurrencyService currencyService, ExcelService excelService) {
-        this.currencyService = currencyService;
-        this.excelService = excelService;
-    }
-
-    private final CurrencyService currencyService;
-    private final ExcelService excelService;
     public List<Product> getProducts() {
         List<Product> products = new ArrayList<>();
 
@@ -49,17 +41,5 @@ public class ProductParserService {
         return products;
     }
 
-    // Выводит товары в терминал
-    public String getUsdRate() {
-        return currencyService.getUsdRate();
-    }
-    public void printProducts() {
-        List<Product> products = getProducts();
-        for (Product product : products) {
-            System.out.println(product);
-        }
-        float usd = Float.parseFloat(getUsdRate());
-        excelService.saveProductsToExcel(products,usd);
-    }
 
 }

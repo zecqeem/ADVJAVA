@@ -30,12 +30,5 @@ public class Product {
         return productUrl;
     }
 
-    @Override
-    public String toString() {
-        return "Название: " + title + "\n" +
-                "Цена: " + price + "\n" +
-                "Изображение: " + imageUrl + "\n" +
-                "Ссылка: " + productUrl + "\n" +
-                "------------------------------------";
-    }
+
 }
